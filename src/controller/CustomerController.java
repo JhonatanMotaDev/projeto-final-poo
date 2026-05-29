@@ -1,13 +1,14 @@
+/**
+ * Este código cria o Controller para gerenciar operações de Customer (consumidor)
+ * Demonstra o padrão MVC (Model, View, Controller)
+ */
+
 package controller;
 
 import model.Customer;
 import service.DataService;
 import java.util.List;
 
-/**
- * Controller para gerenciar operações de Customer
- * Demonstra o padrão MVC
- */
 public class CustomerController {
     private DataService dataService;
 
