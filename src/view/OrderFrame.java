@@ -56,14 +56,18 @@ public class OrderFrame extends JFrame {
         // Restaurante
         mainPanel.add(new JLabel("Restaurante:"));
         cmbRestaurant = new JComboBox<>();
-        cmbRestaurant.addActionListener(e -> loadProducts());
-        loadRestaurants();
         mainPanel.add(cmbRestaurant);
         
         // Produto
         mainPanel.add(new JLabel("Produto:"));
         cmbProduct = new JComboBox<>();
         mainPanel.add(cmbProduct);
+        
+        // Adicionar listener DEPOIS de inicializar cmbProduct
+        cmbRestaurant.addActionListener(e -> loadProducts());
+        
+        // Carregar dados iniciais
+        loadRestaurants();
         
         // Botão adicionar produto
         mainPanel.add(new JLabel(""));
