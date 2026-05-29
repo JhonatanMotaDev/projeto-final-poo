@@ -5,9 +5,6 @@ import model.Restaurant;
 import service.DataService;
 import java.util.List;
 
-/**
- * Controller para gerenciar operações de Restaurant
- */
 public class RestaurantController {
     private DataService dataService;
 

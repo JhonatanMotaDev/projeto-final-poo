@@ -1,17 +1,14 @@
 package view;
 
 import controller.DriverController;
-import model.DeliveryDriver;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import java.awt.*;
+import model.DeliveryDriver;
 
-/**
- * Tela de gerenciamento de entregadores - Design moderno
- */
 public class DriverFrame extends JFrame {
     private DriverController controller;
     private JTable table;
@@ -32,20 +29,16 @@ public class DriverFrame extends JFrame {
         setLayout(new BorderLayout(0, 0));
         getContentPane().setBackground(SECONDARY_COLOR);
 
-        // Header
         JPanel headerPanel = createHeader();
         add(headerPanel, BorderLayout.NORTH);
 
-        // Content
         JPanel contentPanel = new JPanel(new BorderLayout(20, 20));
         contentPanel.setBackground(SECONDARY_COLOR);
         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        // Form Panel
         JPanel formPanel = createFormPanel();
         contentPanel.add(formPanel, BorderLayout.NORTH);
 
-        // Table Panel
         JPanel tablePanel = createTablePanel();
         contentPanel.add(tablePanel, BorderLayout.CENTER);
 
@@ -63,9 +56,6 @@ public class DriverFrame extends JFrame {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
         titlePanel.setBackground(Color.WHITE);
 
-        JLabel iconLabel = new JLabel("🚗");
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 32));
-
         JLabel titleLabel = new JLabel("Gerenciar Entregadores");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(TEXT_COLOR);
@@ -79,7 +69,6 @@ public class DriverFrame extends JFrame {
         textPanel.add(titleLabel);
         textPanel.add(subtitleLabel);
 
-        titlePanel.add(iconLabel);
         titlePanel.add(textPanel);
 
         header.add(titlePanel, BorderLayout.WEST);
@@ -95,7 +84,7 @@ public class DriverFrame extends JFrame {
             new EmptyBorder(20, 20, 20, 20)
         ));
 
-        JLabel formTitle = new JLabel("📝 Cadastrar Novo Entregador");
+        JLabel formTitle = new JLabel("Cadastrar Novo Entregador");
         formTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         formTitle.setForeground(TEXT_COLOR);
         formTitle.setBorder(new EmptyBorder(0, 0, 15, 0));
@@ -103,27 +92,22 @@ public class DriverFrame extends JFrame {
         JPanel fieldsPanel = new JPanel(new GridLayout(3, 4, 15, 15));
         fieldsPanel.setBackground(Color.WHITE);
 
-        // Nome
         fieldsPanel.add(createLabel("Nome Completo:"));
         txtName = createTextField("Digite o nome completo");
         fieldsPanel.add(txtName);
 
-        // Telefone
         fieldsPanel.add(createLabel("Telefone:"));
         txtPhone = createTextField("(00) 00000-0000");
         fieldsPanel.add(txtPhone);
 
-        // Endereço
         fieldsPanel.add(createLabel("Endereço:"));
         txtAddress = createTextField("Rua, número, bairro");
         fieldsPanel.add(txtAddress);
 
-        // Tipo de Veículo
         fieldsPanel.add(createLabel("Tipo de Veículo:"));
         txtVehicle = createTextField("Ex: Moto, Carro, Bicicleta");
         fieldsPanel.add(txtVehicle);
 
-        // Placa
         fieldsPanel.add(createLabel("Placa do Veículo:"));
         txtPlate = createTextField("ABC-1234");
         fieldsPanel.add(txtPlate);
@@ -132,10 +116,10 @@ public class DriverFrame extends JFrame {
         buttonsPanel.setBackground(Color.WHITE);
         buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
 
-        JButton btnClear = createSecondaryButton("🗑️ Limpar");
+        JButton btnClear = createSecondaryButton("Limpar");
         btnClear.addActionListener(e -> clearForm());
 
-        JButton btnSave = createPrimaryButton("✅ Salvar Entregador");
+        JButton btnSave = createPrimaryButton("Salvar Entregador");
         btnSave.addActionListener(e -> saveDriver());
 
         buttonsPanel.add(btnClear);
@@ -160,7 +144,7 @@ public class DriverFrame extends JFrame {
             new EmptyBorder(20, 20, 20, 20)
         ));
 
-        JLabel tableTitle = new JLabel("📋 Entregadores Cadastrados");
+        JLabel tableTitle = new JLabel("Entregadores Cadastrados");
         tableTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         tableTitle.setForeground(TEXT_COLOR);
         tableTitle.setBorder(new EmptyBorder(0, 0, 15, 0));
@@ -181,14 +165,12 @@ public class DriverFrame extends JFrame {
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
 
-        // Header da tabela
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 12));
         header.setBackground(SECONDARY_COLOR);
         header.setForeground(TEXT_COLOR);
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
 
-        // Centralizar ID e Status
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
@@ -285,7 +267,7 @@ public class DriverFrame extends JFrame {
                 driver.getPhone(),
                 driver.getVehicleType(),
                 driver.getLicensePlate(),
-                driver.isAvailable() ? "✅ Disponível" : "🚫 Ocupado"
+                driver.isAvailable() ? "Disponivel" : "Ocupado"
             });
         }
     }

@@ -1,17 +1,11 @@
 package model;
 
-/**
- * Classe abstrata User - demonstra Abstração e Herança
- * Serve como base para todos os tipos de usuários do sistema
- */
 public abstract class User {
-    // Encapsulamento: atributos privados
     private int id;
     private String name;
     private String phone;
     private String address;
 
-    // Construtor
     public User(int id, String name, String phone, String address) {
         this.id = id;
         this.name = name;
@@ -19,13 +13,10 @@ public abstract class User {
         this.address = address;
     }
 
-    // Método abstrato - deve ser implementado pelas subclasses (Polimorfismo)
     public abstract String showData();
 
-    // Método abstrato para login
     public abstract boolean login(String credential);
 
-    // Getters e Setters - Encapsulamento
     public int getId() {
         return id;
     }

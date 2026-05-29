@@ -1,9 +1,5 @@
 package enums;
 
-/**
- * Enum que representa os possíveis status de um pedido
- * Demonstra o uso de enumerações em Java
- */
 public enum OrderStatus {
     PENDING("Pendente"),
     PREPARING("Em Preparação"),

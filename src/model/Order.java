@@ -7,13 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe Order - representa um pedido
- * Demonstra: Implementação de Interface, Associação entre classes
- */
 public class Order implements Deliverable {
     private int id;
-    // Associações: Order tem Customer, Restaurant, DeliveryDriver, Products e Payment
     private Customer customer;
     private Restaurant restaurant;
     private DeliveryDriver driver;
@@ -24,7 +19,6 @@ public class Order implements Deliverable {
     private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
 
-    // Construtor
     public Order(int id, Customer customer, Restaurant restaurant) {
         this.id = id;
         this.customer = customer;
@@ -35,7 +29,6 @@ public class Order implements Deliverable {
         this.orderDate = LocalDateTime.now();
     }
 
-    // Implementação da interface Deliverable
     @Override
     public void startDelivery() {
         this.status = OrderStatus.OUT_FOR_DELIVERY;
@@ -61,13 +54,11 @@ public class Order implements Deliverable {
         }
     }
 
-    // Método para adicionar produto ao pedido
     public void addProduct(Product product) {
         this.products.add(product);
         calculateTotal();
     }
 
-    // Método para calcular o total do pedido
     public void calculateTotal() {
         this.totalValue = 0.0;
         for (Product product : products) {
@@ -75,13 +66,11 @@ public class Order implements Deliverable {
         }
     }
 
-    // Método para atribuir entregador
     public void assignDriver(DeliveryDriver driver) {
         this.driver = driver;
         driver.setAvailable(false);
     }
 
-    // Getters e Setters
     public int getId() {
         return id;
     }

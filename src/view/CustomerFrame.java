@@ -1,17 +1,14 @@
 package view;
 
 import controller.CustomerController;
-import model.Customer;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import java.awt.*;
+import model.Customer;
 
-/**
- * Tela de gerenciamento de clientes - Design moderno
- */
 public class CustomerFrame extends JFrame {
     private CustomerController controller;
     private JTable table;
@@ -32,20 +29,16 @@ public class CustomerFrame extends JFrame {
         setLayout(new BorderLayout(0, 0));
         getContentPane().setBackground(SECONDARY_COLOR);
 
-        // Header
         JPanel headerPanel = createHeader();
         add(headerPanel, BorderLayout.NORTH);
 
-        // Content
         JPanel contentPanel = new JPanel(new BorderLayout(20, 20));
         contentPanel.setBackground(SECONDARY_COLOR);
         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        // Form Panel
         JPanel formPanel = createFormPanel();
         contentPanel.add(formPanel, BorderLayout.NORTH);
 
-        // Table Panel
         JPanel tablePanel = createTablePanel();
         contentPanel.add(tablePanel, BorderLayout.CENTER);
 
@@ -63,9 +56,6 @@ public class CustomerFrame extends JFrame {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
         titlePanel.setBackground(Color.WHITE);
 
-        JLabel iconLabel = new JLabel("👥");
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 32));
-
         JLabel titleLabel = new JLabel("Gerenciar Clientes");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(TEXT_COLOR);
@@ -79,7 +69,6 @@ public class CustomerFrame extends JFrame {
         textPanel.add(titleLabel);
         textPanel.add(subtitleLabel);
 
-        titlePanel.add(iconLabel);
         titlePanel.add(textPanel);
 
         header.add(titlePanel, BorderLayout.WEST);
@@ -95,7 +84,7 @@ public class CustomerFrame extends JFrame {
             new EmptyBorder(20, 20, 20, 20)
         ));
 
-        JLabel formTitle = new JLabel("📝 Cadastrar Novo Cliente");
+        JLabel formTitle = new JLabel("Cadastrar Novo Cliente");
         formTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         formTitle.setForeground(TEXT_COLOR);
         formTitle.setBorder(new EmptyBorder(0, 0, 15, 0));
@@ -103,22 +92,18 @@ public class CustomerFrame extends JFrame {
         JPanel fieldsPanel = new JPanel(new GridLayout(4, 2, 15, 15));
         fieldsPanel.setBackground(Color.WHITE);
 
-        // Nome
         fieldsPanel.add(createLabel("Nome Completo:"));
         txtName = createTextField("Digite o nome completo");
         fieldsPanel.add(txtName);
 
-        // Telefone
         fieldsPanel.add(createLabel("Telefone:"));
         txtPhone = createTextField("(00) 00000-0000");
         fieldsPanel.add(txtPhone);
 
-        // Email
         fieldsPanel.add(createLabel("Email:"));
         txtEmail = createTextField("email@exemplo.com");
         fieldsPanel.add(txtEmail);
 
-        // Endereço
         fieldsPanel.add(createLabel("Endereço:"));
         txtAddress = createTextField("Rua, número, bairro");
         fieldsPanel.add(txtAddress);
@@ -127,10 +112,10 @@ public class CustomerFrame extends JFrame {
         buttonsPanel.setBackground(Color.WHITE);
         buttonsPanel.setBorder(new EmptyBorder(15, 0, 0, 0));
 
-        JButton btnClear = createSecondaryButton("🗑️ Limpar");
+        JButton btnClear = createSecondaryButton("Limpar");
         btnClear.addActionListener(e -> clearForm());
 
-        JButton btnSave = createPrimaryButton("✅ Salvar Cliente");
+        JButton btnSave = createPrimaryButton("Salvar Cliente");
         btnSave.addActionListener(e -> saveCustomer());
 
         buttonsPanel.add(btnClear);
@@ -155,7 +140,7 @@ public class CustomerFrame extends JFrame {
             new EmptyBorder(20, 20, 20, 20)
         ));
 
-        JLabel tableTitle = new JLabel("📋 Clientes Cadastrados");
+        JLabel tableTitle = new JLabel("Clientes Cadastrados");
         tableTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         tableTitle.setForeground(TEXT_COLOR);
         tableTitle.setBorder(new EmptyBorder(0, 0, 15, 0));
@@ -176,14 +161,12 @@ public class CustomerFrame extends JFrame {
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
 
-        // Header da tabela
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 12));
         header.setBackground(SECONDARY_COLOR);
         header.setForeground(TEXT_COLOR);
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
 
-        // Centralizar ID
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);

@@ -1,9 +1,5 @@
 package model;
 
-/**
- * Classe Product - representa um produto do restaurante
- * Demonstra Encapsulamento e uso de objetos
- */
 public class Product {
     private int id;
     private String name;
@@ -11,7 +7,6 @@ public class Product {
     private String description;
     private String category;
 
-    // Construtor
     public Product(int id, String name, double price, String description, String category) {
         this.id = id;
         this.name = name;
@@ -20,7 +15,6 @@ public class Product {
         this.category = category;
     }
 
-    // Getters e Setters - Encapsulamento
     public int getId() {
         return id;
     }

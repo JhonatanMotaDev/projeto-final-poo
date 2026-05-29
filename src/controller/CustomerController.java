@@ -1,8 +1,3 @@
-/**
- * Este código cria o Controller para gerenciar operações de Customer (consumidor)
- * Demonstra o padrão MVC (Model, View, Controller)
- */
-
 package controller;
 
 import model.Customer;

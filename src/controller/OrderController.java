@@ -2,13 +2,10 @@ package controller;
 
 import enums.OrderStatus;
 import enums.PaymentType;
+import java.util.List;
 import model.*;
 import service.DataService;
-import java.util.List;
 
-/**
- * Controller para gerenciar operações de Order
- */
 public class OrderController {
     private DataService dataService;
 
@@ -33,7 +30,6 @@ public class OrderController {
     public void updateOrderStatus(Order order, OrderStatus status) {
         order.setStatus(status);
         
-        // Implementa lógica da interface Deliverable
         if (status == OrderStatus.OUT_FOR_DELIVERY) {
             order.startDelivery();
         } else if (status == OrderStatus.DELIVERED) {

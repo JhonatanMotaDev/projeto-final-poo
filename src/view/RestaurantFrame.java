@@ -1,17 +1,13 @@
 package view;
 
 import controller.RestaurantController;
-import model.Product;
-import model.Restaurant;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
+import model.Product;
+import model.Restaurant;
 
-/**
- * Tela de gerenciamento de restaurantes e produtos
- * Design moderno e clean
- */
 public class RestaurantFrame extends JFrame {
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
     private static final Color SECONDARY_COLOR = new Color(241, 245, 249);
@@ -36,19 +32,15 @@ public class RestaurantFrame extends JFrame {
         setLayout(new BorderLayout(15, 15));
         getContentPane().setBackground(SECONDARY_COLOR);
 
-        // Header
-        JPanel header = createHeader("Restaurantes 🍽️", "Gerencie seus restaurantes e produtos");
+        JPanel header = createHeader("Restaurantes", "Gerencie seus restaurantes e produtos");
         add(header, BorderLayout.NORTH);
 
-        // Painel principal com abas
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 14));
         
-        // Aba de restaurantes
         JPanel restaurantPanel = createRestaurantPanel();
         tabbedPane.addTab("Restaurantes", restaurantPanel);
         
-        // Aba de produtos
         JPanel productPanel = createProductPanel();
         tabbedPane.addTab("Produtos", productPanel);
 
@@ -83,7 +75,6 @@ public class RestaurantFrame extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(SECONDARY_COLOR);
         
-        // Formulário em card
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 12, 12));
         formPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(203, 213, 225)),
@@ -127,7 +118,6 @@ public class RestaurantFrame extends JFrame {
         formPanel.add(buttonPanel);
         formPanel.add(new JLabel());
 
-        // Tabela em card
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBackground(SECONDARY_COLOR);
         tablePanel.setBorder(BorderFactory.createCompoundBorder(
@@ -166,7 +156,6 @@ public class RestaurantFrame extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(SECONDARY_COLOR);
         
-        // Formulário em card
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 12, 12));
         formPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(203, 213, 225)),
@@ -217,7 +206,6 @@ public class RestaurantFrame extends JFrame {
         formPanel.add(buttonPanel);
         formPanel.add(new JLabel());
 
-        // Tabela em card
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBackground(SECONDARY_COLOR);
         tablePanel.setBorder(BorderFactory.createCompoundBorder(

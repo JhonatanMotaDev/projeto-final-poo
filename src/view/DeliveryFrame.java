@@ -2,16 +2,12 @@ package view;
 
 import controller.OrderController;
 import enums.OrderStatus;
-import model.Order;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
+import model.Order;
 
-/**
- * Tela de gerenciamento de entregas
- * Design moderno e clean
- */
 public class DeliveryFrame extends JFrame {
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
     private static final Color SECONDARY_COLOR = new Color(241, 245, 249);
@@ -34,11 +30,9 @@ public class DeliveryFrame extends JFrame {
         setLayout(new BorderLayout(15, 15));
         getContentPane().setBackground(SECONDARY_COLOR);
 
-        // Header
-        JPanel header = createHeader("Entregas 🚀", "Gerencie o status das entregas");
+        JPanel header = createHeader("Entregas", "Gerencie o status das entregas");
         add(header, BorderLayout.NORTH);
 
-        // Painel superior com controles
         JPanel topPanel = createControlPanel();
         add(topPanel, BorderLayout.CENTER);
 
@@ -73,7 +67,6 @@ public class DeliveryFrame extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(SECONDARY_COLOR);
         
-        // Painel de controles
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
         controlPanel.setBackground(SECONDARY_COLOR);
         controlPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -96,7 +89,6 @@ public class DeliveryFrame extends JFrame {
         btnRefresh.addActionListener(e -> loadOrders());
         controlPanel.add(btnRefresh);
 
-        // Tabela em card
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBackground(SECONDARY_COLOR);
         tablePanel.setBorder(BorderFactory.createCompoundBorder(
@@ -152,12 +144,25 @@ public class DeliveryFrame extends JFrame {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component comp = super.prepareRenderer(renderer, row, column);
-                comp.setBackground(row % 2 == 0 ? Color.WHITE : new Color(249, 250, 251));
+                if (isCellSelected(row, column)) {
+                    comp.setBackground(new Color(25, 118, 210));
+                    comp.setForeground(Color.WHITE);
+                } else {
+                    comp.setBackground(row % 2 == 0 ? Color.WHITE : new Color(245, 247, 250));
+                    comp.setForeground(TEXT_COLOR);
+                }
+                if (comp instanceof JComponent) {
+                    ((JComponent) comp).setBorder(BorderFactory.createEmptyBorder());
+                }
                 return comp;
             }
         };
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.setRowHeight(30);
+        table.setRowHeight(28);
+        table.setCellSelectionEnabled(false);
+        table.setRowSelectionAllowed(true);
+        table.setSelectionBackground(new Color(25, 118, 210));
+        table.setSelectionForeground(Color.WHITE);
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         table.getTableHeader().setBackground(TABLE_HEADER_BG);
         table.getTableHeader().setForeground(TEXT_COLOR);

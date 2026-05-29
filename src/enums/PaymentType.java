@@ -1,8 +1,5 @@
 package enums;
 
-/**
- * Enum para tipos de pagamento
- */
 public enum PaymentType {
     CREDIT_CARD("Cartão de Crédito"),
     DEBIT_CARD("Cartão de Débito"),

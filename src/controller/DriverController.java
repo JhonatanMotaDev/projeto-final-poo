@@ -4,9 +4,6 @@ import model.DeliveryDriver;
 import service.DataService;
 import java.util.List;
 
-/**
- * Controller para gerenciar operações de DeliveryDriver
- */
 public class DriverController {
     private DataService dataService;
 

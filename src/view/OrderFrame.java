@@ -5,29 +5,26 @@ import controller.DriverController;
 import controller.OrderController;
 import controller.RestaurantController;
 import enums.PaymentType;
-import model.*;
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import model.*;
 
-/**
- * Tela de criação de pedidos
- * Demonstra uso de JComboBox e interação entre objetos
- */
 public class OrderFrame extends JFrame {
     private OrderController orderController;
     private CustomerController customerController;
     private RestaurantController restaurantController;
     private DriverController driverController;
     
-    private JComboBox<Customer> cmbCustomer;
-    private JComboBox<Restaurant> cmbRestaurant;
-    private JComboBox<Product> cmbProduct;
-    private JComboBox<DeliveryDriver> cmbDriver;
+    private JComboBox<Object> cmbCustomer;
+    private JComboBox<Object> cmbRestaurant;
+    private JComboBox<Object> cmbProduct;
+    private JComboBox<Object> cmbDriver;
     private JComboBox<PaymentType> cmbPayment;
-    private JList<Product> listProducts;
-    private DefaultListModel<Product> listModel;
+    private JSpinner spnQuantity;
+    private JTextArea txtProducts;
     private JLabel lblTotal;
     private List<Product> selectedProducts;
 
@@ -39,89 +36,230 @@ public class OrderFrame extends JFrame {
         selectedProducts = new ArrayList<>();
         
         setTitle("Criar Pedido");
-        setSize(700, 600);
+        setSize(520, 580);
+        setResizable(false);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
-
-        // Painel principal
-        JPanel mainPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(250, 250, 250));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        mainPanel.setLayout(new GridBagLayout());
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        
+        Font labelFont = new Font("Dialog", Font.PLAIN, 12);
+        Font fieldFont = new Font("Dialog", Font.PLAIN, 12);
+        
+        int row = 0;
         
         // Cliente
-        mainPanel.add(new JLabel("Cliente:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        gbc.gridwidth = 1;
+        JLabel lblCliente = new JLabel("Cliente:");
+        lblCliente.setFont(labelFont);
+        lblCliente.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblCliente, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         cmbCustomer = new JComboBox<>();
-        loadCustomers();
-        mainPanel.add(cmbCustomer);
+        cmbCustomer.setFont(fieldFont);
+        cmbCustomer.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        cmbCustomer.setRenderer(new PlaceholderRenderer("Selecione um cliente"));
+        mainPanel.add(cmbCustomer, gbc);
         
-        // Restaurante
-        mainPanel.add(new JLabel("Restaurante:"));
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblRestaurante = new JLabel("Restaurante:");
+        lblRestaurante.setFont(labelFont);
+        lblRestaurante.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblRestaurante, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         cmbRestaurant = new JComboBox<>();
-        mainPanel.add(cmbRestaurant);
-        
-        // Produto
-        mainPanel.add(new JLabel("Produto:"));
-        cmbProduct = new JComboBox<>();
-        mainPanel.add(cmbProduct);
-        
-        // Adicionar listener DEPOIS de inicializar cmbProduct
+        cmbRestaurant.setFont(fieldFont);
+        cmbRestaurant.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        cmbRestaurant.setRenderer(new PlaceholderRenderer("Selecione um restaurante"));
         cmbRestaurant.addActionListener(e -> loadProducts());
+        mainPanel.add(cmbRestaurant, gbc);
         
-        // Carregar dados iniciais
-        loadRestaurants();
+        row++;
         
-        // Botão adicionar produto
-        mainPanel.add(new JLabel(""));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblProduto = new JLabel("Produto:");
+        lblProduto.setFont(labelFont);
+        lblProduto.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblProduto, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        cmbProduct = new JComboBox<>();
+        cmbProduct.setFont(fieldFont);
+        cmbProduct.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        cmbProduct.setRenderer(new PlaceholderRenderer("Selecione um produto"));
+        mainPanel.add(cmbProduct, gbc);
+        
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblQuantidade = new JLabel("Quantidade:");
+        lblQuantidade.setFont(labelFont);
+        lblQuantidade.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblQuantidade, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        spnQuantity = new JSpinner(new SpinnerNumberModel(1, 1, 99, 1));
+        spnQuantity.setFont(fieldFont);
+        spnQuantity.setPreferredSize(new Dimension(80, 25));
+        spnQuantity.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        quantityPanel.setBackground(new Color(250, 250, 250));
+        quantityPanel.add(spnQuantity);
+        mainPanel.add(quantityPanel, gbc);
+        
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
         JButton btnAddProduct = new JButton("Adicionar Produto");
-        btnAddProduct.setBackground(new Color(0, 123, 255));
+        btnAddProduct.setFont(new Font("Dialog", Font.BOLD, 12));
+        btnAddProduct.setBackground(new Color(76, 175, 80));
         btnAddProduct.setForeground(Color.WHITE);
+        btnAddProduct.setFocusPainted(false);
+        btnAddProduct.setBorderPainted(false);
+        btnAddProduct.setPreferredSize(new Dimension(0, 32));
         btnAddProduct.addActionListener(e -> addProduct());
-        mainPanel.add(btnAddProduct);
+        mainPanel.add(btnAddProduct, gbc);
         
-        // Lista de produtos
-        mainPanel.add(new JLabel("Produtos no Pedido:"));
-        listModel = new DefaultListModel<>();
-        listProducts = new JList<>(listModel);
-        JScrollPane scrollPane = new JScrollPane(listProducts);
-        mainPanel.add(scrollPane);
+        row++;
         
-        // Entregador
-        mainPanel.add(new JLabel("Entregador:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        JLabel lblProdutosPedido = new JLabel("Produtos no Pedido:");
+        lblProdutosPedido.setFont(labelFont);
+        lblProdutosPedido.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblProdutosPedido, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        txtProducts = new JTextArea(4, 20);
+        txtProducts.setFont(fieldFont);
+        txtProducts.setEditable(false);
+        txtProducts.setBackground(new Color(245, 245, 245));
+        txtProducts.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(Color.LIGHT_GRAY, 1),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        ));
+        JScrollPane scrollPane = new JScrollPane(txtProducts);
+        scrollPane.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        mainPanel.add(scrollPane, gbc);
+        
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblEntregador = new JLabel("Entregador:");
+        lblEntregador.setFont(labelFont);
+        lblEntregador.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblEntregador, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         cmbDriver = new JComboBox<>();
-        loadDrivers();
-        mainPanel.add(cmbDriver);
+        cmbDriver.setFont(fieldFont);
+        cmbDriver.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        cmbDriver.setRenderer(new PlaceholderRenderer("Selecione um entregador"));
+        mainPanel.add(cmbDriver, gbc);
         
-        // Forma de pagamento
-        mainPanel.add(new JLabel("Pagamento:"));
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblPagamento = new JLabel("Pagamento:");
+        lblPagamento.setFont(labelFont);
+        lblPagamento.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblPagamento, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         cmbPayment = new JComboBox<>(PaymentType.values());
-        mainPanel.add(cmbPayment);
+        cmbPayment.setFont(fieldFont);
+        cmbPayment.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        mainPanel.add(cmbPayment, gbc);
         
-        // Total
-        mainPanel.add(new JLabel("Total:"));
+        row++;
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        JLabel lblTotalLabel = new JLabel("Total:");
+        lblTotalLabel.setFont(labelFont);
+        lblTotalLabel.setPreferredSize(new Dimension(130, 25));
+        mainPanel.add(lblTotalLabel, gbc);
+        
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         lblTotal = new JLabel("R$ 0,00");
-        lblTotal.setFont(new Font("Arial", Font.BOLD, 16));
-        mainPanel.add(lblTotal);
-
-        // Painel de botões
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        lblTotal.setFont(new Font("Dialog", Font.BOLD, 12));
+        lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+        mainPanel.add(lblTotal, gbc);
+        
+        loadCustomers();
+        loadRestaurants();
+        loadDrivers();
+        
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        buttonPanel.setBackground(new Color(250, 250, 250));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15));
+        
         JButton btnCreate = new JButton("Criar Pedido");
-        btnCreate.setBackground(new Color(40, 167, 69));
+        btnCreate.setFont(new Font("Dialog", Font.BOLD, 13));
+        btnCreate.setBackground(new Color(25, 118, 210));
         btnCreate.setForeground(Color.WHITE);
-        btnCreate.setPreferredSize(new Dimension(150, 40));
+        btnCreate.setFocusPainted(false);
+        btnCreate.setBorderPainted(false);
+        btnCreate.setPreferredSize(new Dimension(0, 36));
         btnCreate.addActionListener(e -> createOrder());
         
         JButton btnClear = new JButton("Limpar");
-        btnClear.setPreferredSize(new Dimension(150, 40));
+        btnClear.setFont(new Font("Dialog", Font.PLAIN, 13));
+        btnClear.setBackground(new Color(189, 189, 189));
+        btnClear.setForeground(Color.WHITE);
+        btnClear.setFocusPainted(false);
+        btnClear.setBorderPainted(false);
+        btnClear.setPreferredSize(new Dimension(0, 36));
         btnClear.addActionListener(e -> clearForm());
         
         buttonPanel.add(btnCreate);
         buttonPanel.add(btnClear);
-
+        
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void loadCustomers() {
         cmbCustomer.removeAllItems();
+        cmbCustomer.addItem("");
         for (Customer customer : customerController.getAllCustomers()) {
             cmbCustomer.addItem(customer);
         }
@@ -129,6 +267,7 @@ public class OrderFrame extends JFrame {
 
     private void loadRestaurants() {
         cmbRestaurant.removeAllItems();
+        cmbRestaurant.addItem("");
         for (Restaurant restaurant : restaurantController.getAllRestaurants()) {
             cmbRestaurant.addItem(restaurant);
         }
@@ -136,8 +275,10 @@ public class OrderFrame extends JFrame {
 
     private void loadProducts() {
         cmbProduct.removeAllItems();
-        Restaurant restaurant = (Restaurant) cmbRestaurant.getSelectedItem();
-        if (restaurant != null) {
+        cmbProduct.addItem("");
+        Object selected = cmbRestaurant.getSelectedItem();
+        if (selected instanceof Restaurant) {
+            Restaurant restaurant = (Restaurant) selected;
             for (Product product : restaurant.getProducts()) {
                 cmbProduct.addItem(product);
             }
@@ -146,18 +287,32 @@ public class OrderFrame extends JFrame {
 
     private void loadDrivers() {
         cmbDriver.removeAllItems();
+        cmbDriver.addItem("");
         for (DeliveryDriver driver : driverController.getAvailableDrivers()) {
             cmbDriver.addItem(driver);
         }
     }
 
     private void addProduct() {
-        Product product = (Product) cmbProduct.getSelectedItem();
-        if (product != null) {
-            selectedProducts.add(product);
-            listModel.addElement(product);
+        Object selected = cmbProduct.getSelectedItem();
+        if (selected instanceof Product) {
+            Product product = (Product) selected;
+            int quantity = (Integer) spnQuantity.getValue();
+            for (int i = 0; i < quantity; i++) {
+                selectedProducts.add(product);
+            }
+            updateProductList();
             updateTotal();
+            spnQuantity.setValue(1);
         }
+    }
+
+    private void updateProductList() {
+        StringBuilder sb = new StringBuilder();
+        for (Product product : selectedProducts) {
+            sb.append(product.getName()).append(" - R$ ").append(String.format("%.2f", product.getPrice())).append("\n");
+        }
+        txtProducts.setText(sb.toString());
     }
 
     private void updateTotal() {
@@ -169,32 +324,31 @@ public class OrderFrame extends JFrame {
     }
 
     private void createOrder() {
-        Customer customer = (Customer) cmbCustomer.getSelectedItem();
-        Restaurant restaurant = (Restaurant) cmbRestaurant.getSelectedItem();
-        DeliveryDriver driver = (DeliveryDriver) cmbDriver.getSelectedItem();
+        Object customerObj = cmbCustomer.getSelectedItem();
+        Object restaurantObj = cmbRestaurant.getSelectedItem();
+        Object driverObj = cmbDriver.getSelectedItem();
         PaymentType paymentType = (PaymentType) cmbPayment.getSelectedItem();
 
-        if (customer == null || restaurant == null || selectedProducts.isEmpty()) {
+        if (!(customerObj instanceof Customer) || !(restaurantObj instanceof Restaurant) || selectedProducts.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Selecione cliente, restaurante e adicione produtos!", 
                 "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Cria o pedido
+        Customer customer = (Customer) customerObj;
+        Restaurant restaurant = (Restaurant) restaurantObj;
+        
         Order order = orderController.createOrder(customer, restaurant);
         
-        // Adiciona produtos
         for (Product product : selectedProducts) {
             orderController.addProductToOrder(order, product);
         }
         
-        // Atribui entregador se selecionado
-        if (driver != null) {
-            orderController.assignDriverToOrder(order, driver);
+        if (driverObj instanceof DeliveryDriver) {
+            orderController.assignDriverToOrder(order, (DeliveryDriver) driverObj);
         }
         
-        // Processa pagamento
         orderController.processPayment(order, paymentType);
 
         JOptionPane.showMessageDialog(this, 
@@ -207,11 +361,33 @@ public class OrderFrame extends JFrame {
 
     private void clearForm() {
         selectedProducts.clear();
-        listModel.clear();
+        txtProducts.setText("");
         lblTotal.setText("R$ 0,00");
-        cmbCustomer.setSelectedIndex(-1);
-        cmbRestaurant.setSelectedIndex(-1);
-        cmbProduct.removeAllItems();
-        loadDrivers();
+        spnQuantity.setValue(1);
+        if (cmbCustomer.getItemCount() > 0) cmbCustomer.setSelectedIndex(0);
+        if (cmbRestaurant.getItemCount() > 0) cmbRestaurant.setSelectedIndex(0);
+        if (cmbProduct.getItemCount() > 0) cmbProduct.setSelectedIndex(0);
+        if (cmbDriver.getItemCount() > 0) cmbDriver.setSelectedIndex(0);
+    }
+
+    private static class PlaceholderRenderer extends DefaultListCellRenderer {
+        private String placeholder;
+
+        public PlaceholderRenderer(String placeholder) {
+            this.placeholder = placeholder;
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (value == null || value.toString().isEmpty()) {
+                setText(placeholder);
+                setForeground(Color.GRAY);
+            } else {
+                setText(value.toString());
+                setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
+            }
+            return c;
+        }
     }
 }

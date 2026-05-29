@@ -3,20 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe Restaurant - representa um restaurante
- * Demonstra Associação (tem uma lista de produtos)
- */
 public class Restaurant {
     private int id;
     private String name;
     private String category;
     private String address;
     private String phone;
-    // Associação: Restaurant tem vários Products
     private List<Product> products;
 
-    // Construtor
     public Restaurant(int id, String name, String category, String address, String phone) {
         this.id = id;
         this.name = name;
@@ -26,17 +20,14 @@ public class Restaurant {
         this.products = new ArrayList<>();
     }
 
-    // Método para adicionar produto
     public void addProduct(Product product) {
         this.products.add(product);
     }
 
-    // Método para remover produto
     public void removeProduct(Product product) {
         this.products.remove(product);
     }
 
-    // Getters e Setters
     public int getId() {
         return id;
     }

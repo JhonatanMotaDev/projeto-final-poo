@@ -4,16 +4,12 @@ import controller.CustomerController;
 import controller.DriverController;
 import controller.OrderController;
 import controller.RestaurantController;
-import model.*;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
+import model.*;
 
-/**
- * Tela de relatórios do sistema
- * Design moderno e clean
- */
 public class ReportFrame extends JFrame {
     private static final Color PRIMARY_COLOR = new Color(37, 99, 235);
     private static final Color SECONDARY_COLOR = new Color(241, 245, 249);
@@ -25,6 +21,7 @@ public class ReportFrame extends JFrame {
     private RestaurantController restaurantController;
     private OrderController orderController;
     
+    private JPanel dataPanel;
     private JTable table;
     private DefaultTableModel tableModel;
 
@@ -41,11 +38,9 @@ public class ReportFrame extends JFrame {
         setLayout(new BorderLayout(15, 15));
         getContentPane().setBackground(SECONDARY_COLOR);
 
-        // Header
-        JPanel header = createHeader("Relatórios 📊", "Visualize relatórios e estatísticas do sistema");
+        JPanel header = createHeader("Relatórios", "Visualize relatórios e estatísticas do sistema");
         add(header, BorderLayout.NORTH);
 
-        // Painel de botões
         JPanel buttonPanel = createButtonPanel();
         add(buttonPanel, BorderLayout.CENTER);
     }
@@ -78,7 +73,6 @@ public class ReportFrame extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(SECONDARY_COLOR);
         
-        // Painel de botões em card
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(SECONDARY_COLOR);
         buttonPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -86,24 +80,23 @@ public class ReportFrame extends JFrame {
             BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
         
-        buttonPanel.add(createButton("Clientes 👥", PRIMARY_COLOR));
-        buttonPanel.add(createButton("Entregadores 🛵", PRIMARY_COLOR));
-        buttonPanel.add(createButton("Restaurantes 🍽️", PRIMARY_COLOR));
-        buttonPanel.add(createButton("Pedidos 📦", PRIMARY_COLOR));
-        buttonPanel.add(createButton("Estatísticas 📈", PRIMARY_COLOR));
+        buttonPanel.add(createButton("Clientes", PRIMARY_COLOR));
+        buttonPanel.add(createButton("Entregadores", PRIMARY_COLOR));
+        buttonPanel.add(createButton("Restaurantes", PRIMARY_COLOR));
+        buttonPanel.add(createButton("Pedidos", PRIMARY_COLOR));
+        buttonPanel.add(createButton("Estatísticas", PRIMARY_COLOR));
 
-        // Tabela em card
-        JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBackground(SECONDARY_COLOR);
-        tablePanel.setBorder(BorderFactory.createCompoundBorder(
+        dataPanel = new JPanel(new BorderLayout());
+        dataPanel.setBackground(Color.WHITE);
+        dataPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(203, 213, 225)),
-            BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
         
         JLabel lblTableTitle = new JLabel("Dados");
-        lblTableTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblTableTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTableTitle.setForeground(TEXT_COLOR);
-        tablePanel.add(lblTableTitle, BorderLayout.NORTH);
+        dataPanel.add(lblTableTitle, BorderLayout.NORTH);
         
         tableModel = new DefaultTableModel() {
             @Override
@@ -113,35 +106,35 @@ public class ReportFrame extends JFrame {
         };
         table = createTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.setBackground(SECONDARY_COLOR);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(226, 232, 240)));
+        scrollPane.setBackground(Color.WHITE);
         
-        tablePanel.add(scrollPane, BorderLayout.CENTER);
+        dataPanel.add(scrollPane, BorderLayout.CENTER);
 
         panel.add(buttonPanel, BorderLayout.NORTH);
-        panel.add(tablePanel, BorderLayout.CENTER);
+        panel.add(dataPanel, BorderLayout.CENTER);
         
         return panel;
     }
 
     private JButton createButton(String text, Color bgColor) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFont(new Font("Segoe UI", Font.BOLD, 13));
         button.setBackground(bgColor);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        button.setPreferredSize(new Dimension(140, 40));
+        button.setPreferredSize(new Dimension(150, 40));
         
-        if (text.contains("Clientes")) {
+        if (text.equals("Clientes")) {
             button.addActionListener(e -> showCustomersReport());
-        } else if (text.contains("Entregadores")) {
+        } else if (text.equals("Entregadores")) {
             button.addActionListener(e -> showDriversReport());
-        } else if (text.contains("Restaurantes")) {
+        } else if (text.equals("Restaurantes")) {
             button.addActionListener(e -> showRestaurantsReport());
-        } else if (text.contains("Pedidos")) {
+        } else if (text.equals("Pedidos")) {
             button.addActionListener(e -> showOrdersReport());
-        } else if (text.contains("Estatísticas")) {
+        } else if (text.equals("Estatísticas")) {
             button.addActionListener(e -> showStatistics());
         }
         
@@ -182,7 +175,7 @@ public class ReportFrame extends JFrame {
     }
 
     private void showDriversReport() {
-        String[] columns = {"ID", "Nome", "Telefone", "Veículo", "Placa", "Status"};
+        String[] columns = {"ID", "Nome", "Telefone", "Veiculo", "Placa", "Status"};
         tableModel.setColumnIdentifiers(columns);
         tableModel.setRowCount(0);
         
@@ -193,7 +186,7 @@ public class ReportFrame extends JFrame {
                 driver.getPhone(),
                 driver.getVehicleType(),
                 driver.getLicensePlate(),
-                driver.isAvailable() ? "Disponível ✅" : "Ocupado 🚫"
+                driver.isAvailable() ? "Disponivel" : "Ocupado"
             });
         }
     }
@@ -242,18 +235,15 @@ public class ReportFrame extends JFrame {
             totalRevenue += order.getTotalValue();
         }
 
-        String message = String.format(
-            "ESTATÍSTICAS DO SISTEMA\n\n" +
-            "Total de Clientes: %d\n" +
-            "Total de Entregadores: %d\n" +
-            "Total de Restaurantes: %d\n" +
-            "Total de Pedidos: %d\n" +
-            "Receita Total: R$ %.2f\n" +
-            "Ticket Médio: R$ %.2f",
-            totalCustomers, totalDrivers, totalRestaurants, totalOrders,
-            totalRevenue, totalOrders > 0 ? totalRevenue / totalOrders : 0.0
-        );
-
-        JOptionPane.showMessageDialog(this, message, "Estatísticas", JOptionPane.INFORMATION_MESSAGE);
+        String[] columns = {"Metrica", "Valor"};
+        tableModel.setColumnIdentifiers(columns);
+        tableModel.setRowCount(0);
+        
+        tableModel.addRow(new Object[]{"Total de Clientes", totalCustomers});
+        tableModel.addRow(new Object[]{"Total de Entregadores", totalDrivers});
+        tableModel.addRow(new Object[]{"Total de Restaurantes", totalRestaurants});
+        tableModel.addRow(new Object[]{"Total de Pedidos", totalOrders});
+        tableModel.addRow(new Object[]{"Receita Total", String.format("R$ %.2f", totalRevenue)});
+        tableModel.addRow(new Object[]{"Ticket Medio", String.format("R$ %.2f", totalOrders > 0 ? totalRevenue / totalOrders : 0.0)});
     }
 }

@@ -2,17 +2,12 @@ package model;
 
 import enums.PaymentType;
 
-/**
- * Classe Payment - representa um pagamento
- * Demonstra uso de Enum e encapsulamento
- */
 public class Payment {
     private int id;
     private PaymentType paymentType;
     private double value;
     private boolean confirmed;
 
-    // Construtor
     public Payment(int id, PaymentType paymentType, double value) {
         this.id = id;
         this.paymentType = paymentType;
@@ -20,13 +15,11 @@ public class Payment {
         this.confirmed = false;
     }
 
-    // Método para confirmar pagamento
     public boolean confirmPayment() {
         this.confirmed = true;
         return true;
     }
 
-    // Getters e Setters
     public int getId() {
         return id;
     }
